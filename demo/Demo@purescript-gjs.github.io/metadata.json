@@ -1,0 +1,10 @@
+{
+  "description": "a demo extension",
+  "name": "Demo",
+  "shell-version": [
+    "40.0"
+  ],
+  "url": "https://github.com/purescript-gjs",
+  "uuid": "Demo@purescript-gjs.github.io",
+  "version": 1
+}
