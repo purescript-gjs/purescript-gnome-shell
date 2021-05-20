@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist><schema id="org.gnome.shell.extensions.Demo" path="/org/gnome/shell/extensions/Demo/"><key name="int-setting" type="i"><default>42</default></key></schema></schemalist>

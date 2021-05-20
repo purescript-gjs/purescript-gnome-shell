@@ -1,6 +1,7 @@
-{ name = "Demo"
+(env:PGS).Extension::{
+, name = "Demo"
 , domain = "purescript-gjs.github.io"
 , description = "a demo extension"
-, version = 1
+, options = Some [ (env:PGS).intOption "int-setting" 42 ]
 , url = "https://github.com/purescript-gjs"
 }

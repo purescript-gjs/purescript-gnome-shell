@@ -17,3 +17,6 @@ extension = { enable, disable}
   disable env = do
     GJS.log "disable called"
     pure unit
+
+main :: Effect Unit
+main = pure unit
