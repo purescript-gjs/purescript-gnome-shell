@@ -1,7 +1,8 @@
 (env:PGS).Extension::{
-, name = "Demo"
+, name = "demo"
+, module = "Demo"
 , domain = "purescript-gjs.github.io"
 , description = "a demo extension"
-, options = Some [ (env:PGS).intOption "int-setting" 42 ]
+, settings = Some [ (env:PGS).intSetting "int-setting" 42 ]
 , url = "https://github.com/purescript-gjs"
 }

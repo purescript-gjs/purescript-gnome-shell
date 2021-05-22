@@ -2,18 +2,30 @@ let Prelude =
       https://prelude.dhall-lang.org/v17.0.0/package.dhall sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
 
 let Extension =
-      { Type =
-          { name : Text
-          , domain : Text
-          , description : Text
-          , version : Natural
-          , url : Text
-          , options : Optional (List Prelude.XML.Type)
-          }
-      , default = { options = None (List Prelude.XML.Type), version = 1 }
-      }
+      let _Type =
+            { name : Text
+            , module : Text
+            , domain : Text
+            , description : Text
+            , version : Double
+            , url : Text
+            , settings : Optional (List Prelude.XML.Type)
+            }
 
-let option =
+      let hasSettings =
+            \(extension : _Type) ->
+              Prelude.Bool.not
+                ( Prelude.Optional.null
+                    (List Prelude.XML.Type)
+                    extension.settings
+                )
+
+      in  { Type = _Type
+          , default = { settings = None (List Prelude.XML.Type), version = 0.1 }
+          , hasSettings
+          }
+
+let setting =
       \(name : Text) ->
       \(type : Text) ->
       \(default : Text) ->
@@ -29,20 +41,20 @@ let option =
             ]
           }
 
-let intOption =
+let intSetting =
       \(name : Text) ->
       \(default : Natural) ->
-        option name "i" (Natural/show default)
+        setting name "i" (Natural/show default)
 
-let floatOption =
+let floatSetting =
       \(name : Text) ->
       \(default : Double) ->
-        option name "d" (Double/show default)
+        setting name "d" (Double/show default)
 
-let keyOption =
+let keySetting =
       \(name : Text) ->
       \(key : Text) ->
-        option name "as" "<![CDATA[['${key}']]]>"
+        setting name "as" "<![CDATA[['${key}']]]>"
 
 let toSchema =
       \(extension : Extension.Type) ->
@@ -51,7 +63,7 @@ let toSchema =
                 { Some = \(content : List Prelude.XML.Type) -> content
                 , None = [] : List Prelude.XML.Type
                 }
-                extension.options
+                extension.settings
 
         in  Prelude.XML.element
               { name = "schema"
@@ -76,12 +88,12 @@ let renderSchema =
               )
 
 let Makefile =
-      \(withoutSchema : Bool) ->
-        let dist-schemas = if withoutSchema then "" else "dist-schemas "
+      \(withSettings : Bool) ->
+        let dist-schemas = if withSettings then "dist-schemas " else ""
 
         in  ''
             # TODO: replace dependency by a known location
-            PGS := "../package.dhall"
+            PGS := "~/src/github.com/purescript-gjs/purescript-gnome-shell/package.dhall"
 
             NAME := $(shell sh -c 'echo "($(PGS)).uid ./extension.dhall" | env PGS=$(PGS) dhall text')
             MAIN := $(shell sh -c 'echo "($(PGS)).main ./extension.dhall" | env PGS=$(PGS) dhall text')
@@ -125,32 +137,47 @@ let render =
             ''
             /${extension.name}@${extension.domain}/ linguist-generated=true
             ''
-        , Makefile =
-            Makefile
-              (Prelude.Optional.null (List Prelude.XML.Type) extension.options)
+        , Makefile = Makefile (Extension.hasSettings extension)
         }
 
 let uid =
       \(extension : Extension.Type) -> "${extension.name}@${extension.domain}"
 
-let main = \(extension : Extension.Type) -> extension.name
+let main = \(extension : Extension.Type) -> extension.module
 
 let boot =
       \(extension : Extension.Type) ->
-        let env = "${extension.name}Env"
+        let env = "${extension.module}Env"
 
-        let module = "PS[\"${main extension}\"]"
+        let settings = "${extension.module}Settings"
 
-        let extension = "${module}[\"extension\"]"
+        let module = "PS[\"${main extension}\"][\"extension\"]"
 
-        in  ''
+        let base =
+              ''
 
-            // necessary footer to transform a spago build into a valid gnome extension
-            let ${env} = null;
-            function init() {}
-            function enable() { ${env} = ${extension}.enable(); }
-            function disable() { ${extension}.disable(${env})(); }
-            ''
+              // necessary footer to transform a spago build into a valid gnome extension
+              let ${env} = null;
+              ''
+
+        let simple =
+              ''
+              function init() {}
+              function enable() { ${env} = ${module}.enable(); }
+              function disable() { ${module}.disable(${env})(); }
+              ''
+
+        let setting =
+              ''
+              let ${settings} = null;
+              function init() { ${settings} = ${module}.init(); }
+              function enable() { ${env} = ${module}.enable(${settings})(); }
+              function disable() { ${module}.disable(${env})(); }
+              ''
+
+        in  if    Extension.hasSettings extension
+            then  base ++ setting
+            else  base ++ simple
 
 let metadata =
       \(extension : Extension.Type) ->
@@ -169,7 +196,7 @@ in  { Extension
     , boot
     , metadata
     , renderSchema
-    , intOption
-    , floatOption
-    , keyOption
+    , intSetting
+    , floatSetting
+    , keySetting
     }

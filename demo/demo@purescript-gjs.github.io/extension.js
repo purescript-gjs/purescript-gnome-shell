@@ -170,9 +170,15 @@ var PS = {};
   var GJS = $PS["GJS"];                
   var main = Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
   var extension = (function () {
-      var enable = function __do() {
-          GJS.log("enable called")();
+      var init = function __do() {
+          GJS.log("init called")();
           return Data_Unit.unit;
+      };
+      var enable = function (_settings) {
+          return function __do() {
+              GJS.log("enable called")();
+              return Data_Unit.unit;
+          };
       };
       var disable = function (env) {
           return function __do() {
@@ -181,6 +187,7 @@ var PS = {};
           };
       };
       return {
+          init: init,
           enable: enable,
           disable: disable
       };
@@ -191,6 +198,7 @@ var PS = {};
 PS["Demo"].main();
 // necessary footer to transform a spago build into a valid gnome extension
 let DemoEnv = null;
-function init() {}
-function enable() { DemoEnv = PS["Demo"]["extension"].enable(); }
+let DemoSettings = null;
+function init() { DemoSettings = PS["Demo"]["extension"].init(); }
+function enable() { DemoEnv = PS["Demo"]["extension"].enable(DemoSettings)(); }
 function disable() { PS["Demo"]["extension"].disable(DemoEnv)(); }
