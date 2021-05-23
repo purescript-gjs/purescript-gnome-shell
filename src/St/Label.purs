@@ -1,5 +1,6 @@
 module St.Label where
 
+import Prelude (Unit)
 import Effect (Effect)
 import GObject (class GObject)
 import St (class Widget)
@@ -12,3 +13,4 @@ instance widget :: Widget Label
 instance actor :: Actor Label
 
 foreign import new :: String -> Effect Label
+foreign import set_text :: Label -> String -> Effect Unit
