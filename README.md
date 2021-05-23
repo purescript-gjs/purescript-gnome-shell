@@ -9,6 +9,7 @@ Project using purescript-gnome-shell:
 
 - [autochill][autochill], help you chill by setting up breath time.
 - [gnome-mumble-push-to-talk][gnome-mumble-push-to-talk], enable Mumble push to talk.
+- [cgroup-monitor][cgroup-monitor], display cgroup resources usage.
 
 # Usage
 
@@ -54,3 +55,4 @@ Other usefull guides:
 [purescript]: https://www.purescript.org/
 [autochill]: https://github.com/TristanCacqueray/autochill
 [gnome-mumble-push-to-talk]: https://github.com/TristanCacqueray/gnome-mumble-push-to-talk
+[cgroup-monitor]: https://github.com/TristanCacqueray/cgroup-monitor
