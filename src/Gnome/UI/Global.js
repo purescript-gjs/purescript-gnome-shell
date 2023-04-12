@@ -1,4 +1,4 @@
 "use strict";
 
-exports.stage = global.stage
-exports.display = global.display
+export const stage = global.stage
+export const display = global.display

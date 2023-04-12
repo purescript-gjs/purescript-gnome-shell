@@ -12,7 +12,10 @@ instance obj :: GObject Bin
 instance widget :: Widget Bin
 instance actor :: Actor Bin
 
-foreign import new :: Effect Bin
+foreign import new_ :: Effect Bin
+
+new :: Effect Bin
+new = new_
 
 foreign import unsafe_set_child :: forall child. Bin -> child -> Effect Unit
 

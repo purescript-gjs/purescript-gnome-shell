@@ -2,7 +2,11 @@
   "description": "a demo extension",
   "name": "demo",
   "shell-version": [
-    "40.0"
+    "40.0",
+    "41",
+    "42",
+    "43",
+    "44"
   ],
   "url": "https://github.com/purescript-gjs",
   "uuid": "demo@purescript-gjs.github.io",

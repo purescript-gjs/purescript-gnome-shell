@@ -3,7 +3,7 @@
 let PopupMenu;
 try { PopupMenu = imports.ui.popupMenu; } catch(_) {}
 
-exports.newItem = name => () =>
+export const newItem = name => () =>
   new PopupMenu.PopupMenuItem(name);
 
-exports.connectActivate = item => cb => () => item.connect("activate", cb)
+export const connectActivate = item => cb => () => item.connect("activate", cb)

@@ -3,5 +3,5 @@
 let St;
 try { St = imports.gi.St; } catch(_) {}
 
-exports.new = () => St.Button.new()
-exports.new_with_label = label => () => St.Button.new_with_label(label)
+export const new = () => St.Button.new()
+export const new_with_label = label => () => St.Button.new_with_label(label)

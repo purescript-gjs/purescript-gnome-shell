@@ -3,5 +3,5 @@
 let St;
 try { St = imports.gi.St; } catch(_) {}
 
-exports.new = () => St.Icon.new()
-exports.set_gicon = icon => gicon => () => icon.set_gicon(gicon)
+export const new_ = () => St.Icon.new()
+export const set_gicon = icon => gicon => () => icon.set_gicon(gicon)

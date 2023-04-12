@@ -12,6 +12,9 @@ instance obj :: GObject BoxLayout
 instance widget :: Widget BoxLayout
 instance actor :: Actor BoxLayout
 
-foreign import new :: Effect BoxLayout
+foreign import new_ :: Effect BoxLayout
+
+new :: Effect BoxLayout
+new = new_
 
 foreign import set_vertical :: BoxLayout -> Boolean -> Effect Unit

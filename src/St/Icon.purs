@@ -13,6 +13,9 @@ instance obj :: GObject Icon
 instance widget :: Widget Icon
 instance actor :: Actor Icon
 
-foreign import new :: Effect Icon
+foreign import new_ :: Effect Icon
+
+new :: Effect Icon
+new = new_
 
 foreign import set_gicon :: Icon -> Gio.Icon.Icon -> Effect Unit

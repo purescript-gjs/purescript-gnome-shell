@@ -1,6 +1,6 @@
 "use strict"
 
-exports.normal = imports.gi.Shell.ActionMode.NORMAL
-exports.overview = imports.gi.Shell.ActionMode.OVERVIEW
-exports.lock_screen = imports.gi.Shell.ActionMode.LOCK_SCREEN
-exports.all = imports.gi.Shell.ActionMode.ALL
+export const normal = imports.gi.Shell.ActionMode.NORMAL
+export const overview = imports.gi.Shell.ActionMode.OVERVIEW
+export const lock_screen = imports.gi.Shell.ActionMode.LOCK_SCREEN
+export const all = imports.gi.Shell.ActionMode.ALL
