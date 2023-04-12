@@ -1,5 +1,6 @@
 let Prelude =
-      https://prelude.dhall-lang.org/v17.0.0/package.dhall sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
+      https://prelude.dhall-lang.org/v17.0.0/package.dhall
+        sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
 
 let Extension =
       let _Type =
@@ -114,7 +115,8 @@ let Makefile =
 
             .PHONY: dist-extension
             dist-extension:
-            	env PGS=$(PGS) spago bundle-app -m $(MAIN) --to $(NAME)/extension.js
+            	env PGS=$(PGS) spago bundle-module -m $(MAIN) --to $(NAME)/extension.js
+            	sed -e '/^export {/,/^};/d' -i $(NAME)/extension.js
             	echo "($(PGS)).boot ./extension.dhall" | env PGS=$(PGS) dhall text >> $(NAME)/extension.js
 
             .PHONY: install
@@ -151,8 +153,6 @@ let boot =
 
         let settings = "${extension.module}Settings"
 
-        let module = "PS[\"${main extension}\"][\"extension\"]"
-
         let base =
               ''
 
@@ -163,16 +163,16 @@ let boot =
         let simple =
               ''
               function init() {}
-              function enable() { ${env} = ${module}.enable(); }
-              function disable() { ${module}.disable(${env})(); }
+              function enable() { ${env} = extension_enable(); }
+              function disable() { extension_disable(${env})(); }
               ''
 
         let setting =
               ''
               let ${settings} = null;
-              function init() { ${settings} = ${module}.init(); }
-              function enable() { ${env} = ${module}.enable(${settings})(); }
-              function disable() { ${module}.disable(${env})(); }
+              function init() { ${settings} = extension_init(); }
+              function enable() { ${env} = extension_enable(${settings})(); }
+              function disable() { extension_disable(${env})(); }
               ''
 
         in  if    Extension.hasSettings extension

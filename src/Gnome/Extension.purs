@@ -4,12 +4,12 @@ import Prelude (Unit)
 import Effect (Effect)
 
 type ExtensionSimple env
-  = { enable :: Effect env
-    , disable :: env -> Effect Unit
+  = { extension_enable :: Effect env
+    , extension_disable :: env -> Effect Unit
     }
 
 type Extension settings env
-  = { init :: Effect settings
-    , enable :: settings -> Effect env
-    , disable :: env -> Effect Unit
+  = { extension_init :: Effect settings
+    , extension_enable :: settings -> Effect env
+    , extension_disable :: env -> Effect Unit
     }

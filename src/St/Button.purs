@@ -1,6 +1,5 @@
 module St.Button where
 
-import Prelude (Unit)
 import Effect (Effect)
 import GObject (class GObject)
 import St (class Widget)

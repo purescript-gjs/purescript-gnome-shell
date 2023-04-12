@@ -8,17 +8,17 @@ import GJS as GJS
 type Env = Unit
 
 extension :: Extension Unit Env
-extension = { init, enable, disable}
+extension = { extension_init, extension_enable, extension_disable}
   where
-  init = do
+  extension_init = do
     GJS.log "init called"
     pure unit
 
-  enable _settings = do
+  extension_enable _settings = do
     GJS.log "enable called"
     pure unit
 
-  disable env = do
+  extension_disable env = do
     GJS.log "disable called"
     pure unit
 
