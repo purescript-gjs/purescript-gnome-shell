@@ -163,16 +163,16 @@ let boot =
         let simple =
               ''
               function init() {}
-              function enable() { ${env} = extension_enable(); }
-              function disable() { extension_disable(${env})(); }
+              function enable() { ${env} = extension.extension_enable(); }
+              function disable() { extension.extension_disable(${env})(); }
               ''
 
         let setting =
               ''
               let ${settings} = null;
-              function init() { ${settings} = extension_init(); }
-              function enable() { ${env} = extension_enable(${settings})(); }
-              function disable() { extension_disable(${env})(); }
+              function init() { ${settings} = extension.extension_init(); }
+              function enable() { ${env} = extension.extension_enable(${settings})(); }
+              function disable() { extension.extension_disable(${env})(); }
               ''
 
         in  if    Extension.hasSettings extension
