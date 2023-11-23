@@ -1,7 +1,6 @@
 "use strict";
 
-let Main;
-try { Main = imports.ui.main; } catch(_) {}
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export const notify = msg => details => () => Main.notify(msg, details)
 

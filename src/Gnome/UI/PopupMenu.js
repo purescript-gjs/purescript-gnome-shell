@@ -1,7 +1,6 @@
 "use strict";
 
-let PopupMenu;
-try { PopupMenu = imports.ui.popupMenu; } catch(_) {}
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 
 export const newItem = name => () =>
   new PopupMenu.PopupMenuItem(name);

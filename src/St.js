@@ -1,7 +1,6 @@
 "use strict";
 
-let St;
-try { St = imports.gi.St; } catch(_) {}
+import St from 'gi://St'
 
 export const unsafe_add_style_class_name = widget => name => () => widget.add_style_class_name(name)
 export const unsafe_remove_style_class_name = widget => name => () => widget.remove_style_class_name(name)

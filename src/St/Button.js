@@ -1,7 +1,6 @@
 "use strict";
 
-let St;
-try { St = imports.gi.St; } catch(_) {}
+import St from 'gi://St'
 
 export const new_ = () => St.Button.new()
 export const new_with_label = label => () => St.Button.new_with_label(label)

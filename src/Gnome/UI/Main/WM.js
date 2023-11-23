@@ -1,7 +1,6 @@
 "use strict";
 
-let Main;
-try { Main = imports.ui.main; } catch (_) {}
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export const addKeybinding = name => settings => flags => modes => handler => () =>
   Main.wm.addKeybinding(name, settings, flags, modes, handler)
