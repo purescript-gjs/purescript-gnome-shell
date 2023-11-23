@@ -115,7 +115,9 @@ let Makefile =
 
             .PHONY: dist-extension
             dist-extension:
-            	env PGS=$(PGS) spago bundle-module -m $(MAIN) --to $(NAME)/extension.js
+            	# spago needs a patch to pass the external arg to esbuild, for now just ignore the failure and finish the build manually
+            	env PGS=$(PGS) spago bundle-module -m $(MAIN) --to $(NAME)/extension.js || true
+            	esbuild --platform=browser --format=esm --bundle --outfile=$(NAME)/extension.js output/$(MAIN)/index.js "--external:gi://*"  "--external:resource://*"
             	sed -e '/^export {/,/^};/d' -i $(NAME)/extension.js
             	echo "($(PGS)).boot ./extension.dhall" | env PGS=$(PGS) dhall text >> $(NAME)/extension.js
 
@@ -158,21 +160,28 @@ let boot =
 
               // necessary footer to transform a spago build into a valid gnome extension
               let ${env} = null;
+              import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
               ''
 
         let simple =
               ''
-              function init() {}
-              function enable() { ${env} = extension.extension_enable(); }
-              function disable() { extension.extension_disable(${env})(); }
+              export default class ${extension.module} extends Extension {
+                enable() { ${env} = extension.extension_enable(); }
+                disable() { extension.extension_disable(${env})(); }
+              }
               ''
 
         let setting =
               ''
               let ${settings} = null;
-              function init() { ${settings} = extension.extension_init(); }
-              function enable() { ${env} = extension.extension_enable(${settings})(); }
-              function disable() { extension.extension_disable(${env})(); }
+              export default class ${extension.module} extends Extension {
+                constructor(metadata) {
+                  super(metadata);
+                  ${settings} = extension.extension_init();
+                }
+                enable() { ${env} = extension.extension_enable(${settings})(); }
+                disable() { extension.extension_disable(${env})(); }
+              }
               ''
 
         in  if    Extension.hasSettings extension
