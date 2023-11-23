@@ -2,8 +2,6 @@ module ExtensionUtils where
 
 import Effect (Effect)
 
-foreign import data Extension :: Type
+foreign import data ExtensionMetadata :: Type
 
-foreign import getCurrentExtension :: Effect Extension
-
-foreign import getPath :: Extension -> String -> Effect String
+foreign import getPath :: ExtensionMetadata -> String -> Effect String

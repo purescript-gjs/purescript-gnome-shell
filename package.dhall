@@ -177,7 +177,7 @@ let boot =
               export default class ${extension.module} extends Extension {
                 constructor(metadata) {
                   super(metadata);
-                  ${settings} = extension.extension_init();
+                  ${settings} = extension.extension_init(metadata)();
                 }
                 enable() { ${env} = extension.extension_enable(${settings})(); }
                 disable() { extension.extension_disable(${env})(); }
