@@ -105,15 +105,23 @@ var $lazy_applyEffect = /* @__PURE__ */ $runtime_lazy("applyEffect", "Effect", f
 
 // output/GJS/foreign.js
 var argv = ARGV;
-var log = (msg) => () => log(msg);
+var log = (msg) => () => console.log(msg);
+
+// output/Data.Bounded/foreign.js
+var topChar = String.fromCharCode(65535);
+var bottomChar = String.fromCharCode(0);
+var topNumber = Number.POSITIVE_INFINITY;
+var bottomNumber = Number.NEGATIVE_INFINITY;
 
 // output/Demo/index.js
 var pure2 = /* @__PURE__ */ pure(applicativeEffect);
 var main = /* @__PURE__ */ pure2(unit);
 var extension = /* @__PURE__ */ function() {
-  var extension_init = function __do() {
-    log("init called")();
-    return unit;
+  var extension_init = function(v) {
+    return function __do() {
+      log("init called")();
+      return unit;
+    };
   };
   var extension_enable = function(_settings) {
     return function __do() {
@@ -121,7 +129,7 @@ var extension = /* @__PURE__ */ function() {
       return unit;
     };
   };
-  var extension_disable = function(env) {
+  var extension_disable = function(_env) {
     return function __do() {
       log("disable called")();
       return unit;
@@ -136,7 +144,13 @@ var extension = /* @__PURE__ */ function() {
 
 // necessary footer to transform a spago build into a valid gnome extension
 let DemoEnv = null;
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 let DemoSettings = null;
-function init() { DemoSettings = extension_init(); }
-function enable() { DemoEnv = extension_enable(DemoSettings)(); }
-function disable() { extension_disable(DemoEnv)(); }
+export default class Demo extends Extension {
+  constructor(metadata) {
+    super(metadata);
+    DemoSettings = extension.extension_init(metadata)();
+  }
+  enable() { DemoEnv = extension.extension_enable(DemoSettings)(); }
+  disable() { extension.extension_disable(DemoEnv)(); }
+}

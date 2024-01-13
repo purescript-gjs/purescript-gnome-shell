@@ -1,0 +1,19 @@
+package:
+  name: gnome-shell
+  dependencies:
+    - effect
+    - gjs
+    - maybe
+    - nullable
+    - prelude
+  bundle:
+    type: module
+    extra_args:
+      - "--external:gi://*"
+      - "--external:resource://*"
+workspace:
+  package_set:
+    registry: 48.0.0
+  extra_packages:
+    gjs:
+      path: ../purescript-gjs

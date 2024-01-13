@@ -10,7 +10,7 @@ type Env = Unit
 extension :: Extension Unit Env
 extension = { extension_init, extension_enable, extension_disable}
   where
-  extension_init = do
+  extension_init _ = do
     GJS.log "init called"
     pure unit
 
@@ -18,7 +18,7 @@ extension = { extension_init, extension_enable, extension_disable}
     GJS.log "enable called"
     pure unit
 
-  extension_disable env = do
+  extension_disable _env = do
     GJS.log "disable called"
     pure unit
 
