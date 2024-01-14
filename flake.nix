@@ -21,6 +21,7 @@
             pkgs.gjs
 
             pkgs.purs
+            pkgs.nodePackages_latest.purty
             pkgs.spago-unstable
             pkgs.purs-tidy-bin.purs-tidy-0_10_0
             pkgs.purs-backend-es

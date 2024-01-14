@@ -116,7 +116,6 @@ let Makefile =
             .PHONY: dist-extension
             dist-extension:
             	env PGS=$(PGS) spago bundle --module $(MAIN) --outfile $(NAME)/extension.js
-            	sed -e '/^export {/,/^};/d' -i $(NAME)/extension.js
             	echo "($(PGS)).boot ./extension.dhall" | env PGS=$(PGS) dhall text >> $(NAME)/extension.js
 
             .PHONY: install
@@ -128,7 +127,7 @@ let Makefile =
             test:
             	dbus-run-session -- gnome-shell --nested --wayland
 
-            .PHONE: update
+            .PHONY: update
             update:
             	echo "($(PGS)).render ./extension.dhall" | env PGS=$(PGS) dhall to-directory-tree --output .
             ''
