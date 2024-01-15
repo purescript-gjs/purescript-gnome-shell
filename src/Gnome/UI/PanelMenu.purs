@@ -16,3 +16,11 @@ instance actor :: Actor Button
 foreign import newButton :: Number -> String -> Boolean -> Effect Button
 
 foreign import addMenuItem :: Button -> PopupMenuItem -> Effect Unit
+
+foreign import toggle :: Button -> Effect Unit
+
+foreign import removeAll :: Button -> Effect Unit
+
+foreign import open :: Button -> Effect Unit
+
+foreign import close :: Button -> Effect Unit
