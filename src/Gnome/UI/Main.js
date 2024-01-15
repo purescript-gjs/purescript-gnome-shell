@@ -3,6 +3,7 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export const notify = msg => details => () => Main.notify(msg, details)
+export const notifyError = msg => err => () => Main.notifyError(msg, err)
 
 const defaultParams = {
 };

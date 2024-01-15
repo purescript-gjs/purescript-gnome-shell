@@ -7,6 +7,8 @@ import Clutter.Actor (class Actor)
 
 foreign import notify :: String -> String -> Effect Unit
 
+foreign import notifyError :: String -> String -> Effect Unit
+
 foreign import unsafe_addChrome :: forall actor. actor -> Effect Unit
 
 addChrome :: forall actor. Actor actor => actor -> Effect Unit
