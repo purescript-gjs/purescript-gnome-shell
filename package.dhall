@@ -137,7 +137,7 @@ let render =
         { `.gitattributes` =
             ''
             /spago.lock linguist-generated=true
-            /${extension.name}@${extension.domain}/ linguist-generated=true
+            /${extension.name}@${extension.domain}/* linguist-generated=true
             ''
         , Makefile = Makefile (Extension.hasSettings extension)
         }
