@@ -192,7 +192,7 @@ let metadata =
         , name = extension.name
         , description = extension.description
         , version = extension.version
-        , shell-version = [ "45", "46" ]
+        , shell-version = [ "45", "46", "47", "48" ]
         , url = extension.url
         }
 
